@@ -58,7 +58,7 @@ class TransactionGNN(nn.Module):
         return self.event_encoder(torch.cat(parts, dim=-1))
 
     def encode_nodes(self, tree, level):
-        own = self.node_encoder(tree['x'])
+        own = self.node_encoder(tree['X'])
 
         if level == 0:
             return own
