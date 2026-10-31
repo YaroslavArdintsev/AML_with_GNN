@@ -12,7 +12,7 @@ def mlp(input_size: int, output_size: int):
 class TransactionGNN(nn.Module):
     def __init__(
             self,
-            categoty_sizes,
+            category_sizes,
             numeric_size: int = 7,
             hidden_size: int = 64,
             embedding_size: int = 8,
@@ -24,11 +24,11 @@ class TransactionGNN(nn.Module):
 
         self.embeddings = nn.ModuleList([
             nn.Embedding(size, embedding_size, padding_idx=0)
-            for size in categoty_sizes
+            for size in category_sizes
         ])
 
         event_input_size = (
-            numeric_size + len(categoty_sizes) + embedding_size
+            numeric_size + len(category_sizes) * embedding_size
         )
 
         self.event_encoder = mlp(event_input_size, hidden_size)

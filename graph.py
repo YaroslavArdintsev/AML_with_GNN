@@ -129,26 +129,26 @@ class TemporalGraph:
         historical_times = self.time[edges]
         allowed = np.broadcast_to(cutoffs[:, None], edges.shape)
 
-        if not np.all(historical_times[mask] < allowed[mask]):
+        if not np.all(historical_times[masks] < allowed[masks]):
             raise RuntimeError('В исторический граф попало будущее событие')
 
         edge_num = np.array(self.num[edges], copy=True)
         edge_cat = np.array(self.cat[edges], copy=True)
-        edge_num[~mask] = 0
-        edge_cat[~mask] = 0
+        edge_num[~masks] = 0
+        edge_cat[~masks] = 0
 
         age = np.log1p(
             np.maximum(allowed - historical_times, 0) / 3600.0
         ).astype(np.float32)
-        age[~mask] = 0
+        age[~masks] = 0
 
-        child_cutoffs = np.where(mask, historical_times, 0)
+        child_cutoffs = np.where(masks, historical_times, 0)
 
         result.update({
             'num': edge_num,
             'cat': edge_cat,
             'age': age[..., None],
-            'mask': mask,
+            'mask': masks,
             'child': self.node_tree(
                 neighbors.reshape(-1),
                 child_cutoffs.reshape(-1),
