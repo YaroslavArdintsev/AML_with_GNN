@@ -161,7 +161,7 @@ class TemporalGraph:
     def batch(self, event_ids, depth, fanout):
         event_ids = np.asarray(event_ids, dtype=np.int64)
 
-        np.stack([
+        nodes = np.stack([
             self.src[event_ids],
             self.dst[event_ids]
         ], axis=1).reshape(-1)

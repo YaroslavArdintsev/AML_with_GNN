@@ -209,7 +209,9 @@ def main():
                 raise ValueError('После преобразования получены NaN/inf')
 
         cat = np.column_stack([
-                frame[name].map(preprocessing['vocabularies'][name].fillna(0).to_numpy(dtype=np.int64)) for name in CATS
+                frame[name].map(preprocessing['vocabularies'][name])
+                .fillna(0).to_numpy(dtype=np.int64)
+                for name in CATS
         ])
 
         all_accounts = pd.concat(
